@@ -2,22 +2,11 @@
 function smooth_slider_create_multiple_sliders() {
 global $smooth_slider;
 ?>
-
-<div class="wrap" style="clear:both;">
-                     <div style="margin:10px auto;clear:left;">
-                        <a href="http://slidervilla.com/" title="Premium WordPress Slider Plugins" target="_blank"><img src="<?php echo smooth_slider_plugin_url('images/slidervilla-728.jpg');?>" alt="Premium WordPress Slider Plugins" /></a>
-                     </div>
+<div class="wrap smooth_sliders_create" id="smooth_sliders_create" style="clear:both;">
 <h2 style="float:left;"><?php _e('Sliders Created','smooth-slider'); ?></h2>
-<form  style="float:left;" action="https://www.paypal.com/cgi-bin/webscr" method="post">
-<input type="hidden" name="cmd" value="_s-xclick">
-<input type="hidden" name="hosted_button_id" value="8046056">
-<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
-</form>
-
 <?php 
-if ($_POST['remove_posts_slider']) {
-   if ( $_POST['slider_posts'] ) {
+if (isset($_POST['remove_posts_slider'])) {
+   if (isset($_POST['slider_posts']) ) {
        global $wpdb, $table_prefix;
        $table_name = $table_prefix.SLIDER_TABLE;
 	   $current_slider = $_POST['current_slider_id'];
@@ -26,6 +15,7 @@ if ($_POST['remove_posts_slider']) {
 		   $wpdb->query($sql);
 	   }
    }
+ if (isset ($_POST['remove_all'])) {
    if ($_POST['remove_all'] == __('Remove All at Once','smooth-slider')) {
        global $wpdb, $table_prefix;
        $table_name = $table_prefix.SLIDER_TABLE;
@@ -35,6 +25,8 @@ if ($_POST['remove_posts_slider']) {
 		   $wpdb->query($sql);
 	   }
    }
+}
+ if (isset ($_POST['remove_all'])) {
    if ($_POST['remove_all'] == __('Delete Slider','smooth-slider')) {
        $slider_id = $_POST['current_slider_id'];
        global $wpdb, $table_prefix;
@@ -55,14 +47,15 @@ if ($_POST['remove_posts_slider']) {
 	   }
    }
 }
-if ($_POST['create_new_slider']) {
+}
+if (isset($_POST['create_new_slider'])) {
    $slider_name = $_POST['new_slider_name'];
    global $wpdb,$table_prefix;
    $slider_meta = $table_prefix.SLIDER_META;
    $sql = "INSERT INTO $slider_meta (slider_name) VALUES('$slider_name');";
    $result = $wpdb->query($sql);
 }
-if ($_POST['reorder_posts_slider']) {
+if (isset($_POST['reorder_posts_slider'])) {
    $i=1;
    global $wpdb, $table_prefix;
    $table_name = $table_prefix.SLIDER_TABLE;
@@ -73,24 +66,85 @@ if ($_POST['reorder_posts_slider']) {
     $i++;
   }
 }
-?>
-<div style="clear:both"></div>
-<?php $url = sslider_admin_url( array( 'page' => 'smooth-slider-settings' ) );?>
-<a href="<?php echo $url; ?>" title="<?php _e('Settings Page for Smooth Slider where you can change the color, font etc. for the sliders','smooth-slider'); ?>"><?php _e('Go to Smooth Slider Settings page','smooth-slider'); ?></a>
-<?php $sliders = ss_get_sliders(); ?>
+/*Added for rename slider-2.6-start*/
+if ((isset ($_POST['rename_slider'])) and ($_POST['rename_slider'] == __('Rename','smooth-slider'))) {
+	$slider_name = $_POST['rename_slider_to'];
+	$slider_id=$_POST['current_slider_id'];
+	if( !empty($slider_name) ) {
+		global $wpdb,$table_prefix;
+		$slider_meta = $table_prefix.SLIDER_META;
+		$sql = 'UPDATE '.$slider_meta.' SET slider_name="'.$slider_name.'" WHERE slider_id='.$slider_id;
+		$wpdb->query($sql);
+	}
+}
+/*Added for rename slider-2.6-end*/
 
+/* Added for upload media save-2.6 */
+if ( isset($_POST['addSave']) and ($_POST['addSave']=='Save') ) {
+	$images=(isset($_POST['imgID']))?$_POST['imgID']:array();
+	$slider_id=$_POST['current_slider_id'];
+	$ids=array_reverse($images);
+	global $wpdb,$table_prefix;
+	foreach($ids as $id){
+		$title=(isset($_POST['title'][$id]))?$_POST['title'][$id]:'';
+		$desc=(isset($_POST['desc'][$id]))?$_POST['desc'][$id]:'';
+		$link=(isset($_POST['link'][$id]))?$_POST['link'][$id]:'';
+		$nolink=(isset($_POST['nolink'][$id]))?$_POST['nolink'][$id]:'';
+		$attachment = array(
+			'ID'           => $id,
+			'post_title'   => $title,
+			'post_content' => $desc
+		);
+		wp_update_post( $attachment );
+		update_post_meta($id, 'smooth_slide_redirect_url', $link);
+		update_post_meta($id, 'smooth_sslider_nolink', $nolink);
+		if(!slider($id,$slider_id)) {
+				$dt = date('Y-m-d H:i:s');
+				$sql = "INSERT INTO ".$table_prefix.SLIDER_TABLE." (post_id, date, slider_id) VALUES ('$id', '$dt', '$slider_id')";
+				$wpdb->query($sql);
+		}
+	}
+}
+/*   upload media end 2.6 */
+?>
+<div style="clear:left"></div>
+<?php $url = sslider_admin_url( array( 'page' => 'smooth-slider-settings' ) );?>
+<a class="svorangebutton" href="<?php echo $url; ?>" title="<?php _e('Settings Page for Smooth Slider where you can change the color, font etc. for the sliders','smooth-slider'); ?>"><?php _e('Go to Smooth Slider Settings page','smooth-slider'); ?></a>
+<?php $sliders = ss_get_sliders(); ?>
+<div style="clear:right"></div>
 <div id="slider_tabs">
         <ul class="ui-tabs">
         <?php foreach($sliders as $slider){?>
-            <li><a href="#tabs-<?php echo $slider['slider_id'];?>"><?php echo $slider['slider_name'];?></a></li>
+            <li class="yellow"><a href="#tabs-<?php echo $slider['slider_id'];?>"><?php echo $slider['slider_name'];?></a></li>
         <?php } ?>
-        <?php if($smooth_slider['multiple_sliders'] == '1') {?>
-            <li><a href="#new_slider"><?php _e('Create New Slider','smooth-slider'); ?></a></li>
+        <?php if(isset($smooth_slider['multiple_sliders']) && $smooth_slider['multiple_sliders'] == '1') {?>
+            <li class="green"><a href="#new_slider"><?php _e('Create New Slider','smooth-slider'); ?></a></li>
         <?php } ?>
         </ul>
 
 <?php foreach($sliders as $slider){?>
-<div id="tabs-<?php echo $slider['slider_id'];?>">
+<div id="tabs-<?php echo $slider['slider_id'];?>" style="width:56%;">
+<strong>Quick Embed Shortcode:</strong>
+<div class="admin_shortcode">
+<pre style="padding: 10px 0;">[smoothslider id='<?php echo $slider['slider_id'];?>']</pre>
+</div>
+<!-- Add bulk images start 2.6-->
+<?php 
+if ( ! did_action( 'wp_enqueue_media' ) ) wp_enqueue_media();
+wp_enqueue_script( 'media-uploader', smooth_slider_plugin_url( 'js/media-uploader.js' ),array( 'jquery', 'iris' ), SMOOTH_SLIDER_VER, false);
+?>
+	<h3 class="sub-heading" style="margin-left:0px;"><?php _e('Add Images to','smooth-slider'); ?> <?php echo $slider['slider_name'];?> (Slider ID = <?php echo $slider['slider_id'];?>)</h3>
+
+	<div class="uploaded-images">
+		<form method="post" class="addImgForm">
+			<div style="clear:left;margin-top:20px;" class="image-uploader">
+				<input type="submit" class="upload-button slider_images_upload" name="slider_images_upload" value="Upload" />
+			</div>
+			<input type="hidden" name="current_slider_id" value="<?php echo $slider['slider_id'];?>" />
+			<input type="hidden" name="active_tab" class="smooth_activetab" value="0" />
+		</form>
+	</div>
+<!-- Add bulk images end 2.6-->
 <form action="" method="post">
 <?php settings_fields('smooth-slider-group'); ?>
 
@@ -100,7 +154,7 @@ if ($_POST['reorder_posts_slider']) {
 <p><em><?php _e('Check the Post/Page and Press "Remove Selected" to remove them From','smooth-slider'); ?> <?php echo $slider['slider_name'];?>. <?php _e('Press "Remove All at Once" to remove all the posts from the','smooth-slider'); ?> <?php echo $slider['slider_name'];?>.</em></p>
 
     <table class="widefat">
-    <thead><tr><th><?php _e('Post/Page Title','smooth-slider'); ?></th><th><?php _e('Author','smooth-slider'); ?></th><th><?php _e('Post Date','smooth-slider'); ?></th><th><?php _e('Remove Post','smooth-slider'); ?></th></tr></thead><tbody>
+    <thead class="blue"><tr><th><?php _e('Post/Page Title','smooth-slider'); ?></th><th><?php _e('Author','smooth-slider'); ?></th><th><?php _e('Post Date','smooth-slider'); ?></th><th><?php _e('Remove Post','smooth-slider'); ?></th></tr></thead><tbody>
 
 <?php  
 	/*global $wpdb, $table_prefix;
@@ -114,19 +168,21 @@ if ($_POST['reorder_posts_slider']) {
 <?php    $count = 0;	
 	foreach($slider_posts as $slider_post) {
 	  $slider_arr[] = $slider_post->post_id;
-	  $post = get_post($slider_post->post_id);	  
-	  if ( in_array($post->ID, $slider_arr) ) {
+	  $post = get_post($slider_post->post_id);
+		if(isset($post) and isset($slider_arr)){
+		if (in_array($post->ID, $slider_arr) ) {
 		  $count++;
 		  $sslider_author = get_userdata($post->post_author);
           $sslider_author_dname = $sslider_author->display_name;
 		  echo '<tr' . ($count % 2 ? ' class="alternate"' : '') . '><td><strong>' . $post->post_title . '</strong><a href="'.get_edit_post_link( $post->ID, $context = 'display' ).'" target="_blank"> '.__( '(Edit)', 'smooth-slider' ).'</a> <a href="'.get_permalink( $post->ID ).'" target="_blank"> '.__( '(View)', 'smooth-slider' ).' </a></td><td>By ' . $sslider_author_dname . '</td><td>' . date('l, F j. Y',strtotime($post->post_date)) . '</td><td><input type="checkbox" name="slider_posts[' . $post->ID . ']" value="1" /></td></tr>'; 
-	  }
+		  }
+		}
 	}
 		
 	if ($count == 0) {
 		echo '<tr><td colspan="4">'.__( 'No posts/pages have been added to the Slider - You can add respective post/page to slider on the Edit screen for that Post/Page', 'smooth-slider' ).'</td></tr>';
 	}
-	echo '</tbody><tfoot><tr><th>'.__( 'Post/Page Title', 'smooth-slider' ).'</th><th>'.__( 'Author', 'smooth-slider' ).'</th><th>'.__( 'Post Date', 'smooth-slider' ).'</th><th>'.__( 'Remove Post', 'smooth-slider' ).'</th></tr></tfoot></table>'; 
+	echo '</tbody><tfoot class="blue"><tr><th>'.__( 'Post/Page Title', 'smooth-slider' ).'</th><th>'.__( 'Author', 'smooth-slider' ).'</th><th>'.__( 'Post Date', 'smooth-slider' ).'</th><th>'.__( 'Remove Post', 'smooth-slider' ).'</th></tr></tfoot></table>'; 
     
 	echo '<div class="submit">';
 	
@@ -139,14 +195,15 @@ if ($_POST['reorder_posts_slider']) {
 	echo '</div>';
 ?>    
     </tbody></table>
+	<input type="hidden" name="active_tab" class="smooth_activetab" value="0" />
  </form>
  
  
  <form action="" method="post">
     <input type="hidden" name="reorder_posts_slider" value="1" />
-    <h3><?php _e('Reorder the Posts/Pages Added To','smooth-slider'); ?> <?php echo $slider['slider_name'];?>(Slider ID = <?php echo $slider['slider_id'];?>)</h3>
+    <h3 class="sub-heading" style="margin-left:0px;"><?php _e('Reorder the Posts/Pages Added To','smooth-slider'); ?> <?php echo $slider['slider_name'];?>(Slider ID = <?php echo $slider['slider_id'];?>)</h3>
     <p><em><?php _e('Click on and drag the post/page title to a new spot within the list, and the other items will adjust to fit.','smooth-slider'); ?> </em></p>
-    <ul id="sslider_sortable_<?php echo $slider['slider_id'];?>" style="color:#326078">    
+    <ul id="sslider_sortable_<?php echo $slider['slider_id'];?>" style="color:#326078;overflow: auto;">    
     <?php  
     /*global $wpdb, $table_prefix;
 	$table_name = $table_prefix.SLIDER_TABLE;*/
@@ -159,14 +216,16 @@ if ($_POST['reorder_posts_slider']) {
     <?php    $count = 0;	
         foreach($slider_posts as $slider_post) {
           $slider_arr[] = $slider_post->post_id;
-          $post = get_post($slider_post->post_id);	  
+          $post = get_post($slider_post->post_id);
+	if(isset($post) and isset($slider_arr)){	  
           if ( in_array($post->ID, $slider_arr) ) {
               $count++;
               $sslider_author = get_userdata($post->post_author);
               $sslider_author_dname = $sslider_author->display_name;
-              echo '<li id="'.$post->ID.'"><input type="hidden" name="order[]" value="'.$post->ID.'" /><strong> &raquo; &nbsp; ' . $post->post_title . '</strong></li>'; 
-          }
-        }
+              echo '<li id="'.$post->ID.'" class="reorder"><input type="hidden" name="order[]" value="'.$post->ID.'" /><strong> &raquo; &nbsp; ' . $post->post_title . '</strong></li>'; 
+          		}
+        		}
+	}
             
         if ($count == 0) {
             echo '<li>'.__( 'No posts/pages have been added to the Slider - You can add respective post/page to slider on the Edit screen for that Post/Page', 'smooth-slider' ).'</li>';
@@ -178,14 +237,31 @@ if ($_POST['reorder_posts_slider']) {
                 
         echo '</div>';
     ?>    
-       </div>       
+       </div>   
+	<input type="hidden" name="active_tab" class="smooth_activetab" value="0" />    
   </form>
+<!-- Added for rename slider -start -->
+	 <h3 class="sub-heading" style="margin:40px 0px 5px 0;"><?php _e('Rename Slider','smooth-slider'); ?></h3>
+	<form action="" method="post"> 
+		<table class="form-table">
+			<tr valign="top">
+			<th scope="row"><?php _e('Rename Slider to','smooth-slider'); ?></th>
+			<td><input type="text" name="rename_slider_to" class="regular-text" value="<?php echo $slider['slider_name'];?>" /></td>
+			</tr>
+		</table>
+		<input type="hidden" name="current_slider_id" value="<?php echo $slider_id;?>" />
+		<input type="submit" value="<?php _e('Rename','smooth-slider'); ?>"  name="<?php _e('rename_slider','smooth-slider'); ?>" />
+	
+		<input type="hidden" name="active_tab" class="smooth_activetab" value="0" />
+	
+	</form>
+<!-- Added for rename slider -end -->	
 </div> 
  
 <?php } ?>
 
-<?php if($smooth_slider['multiple_sliders'] == '1') {?>
-    <div id="new_slider">
+<?php if(isset($smooth_slider['multiple_sliders']) && $smooth_slider['multiple_sliders'] == '1') {?>
+    <div id="new_slider" style="width:56%;">
     <form action="" method="post" onsubmit="return slider_checkform(this);" >
     <h3><?php _e('Enter New Slider Name','smooth-slider'); ?></h3>
     <input type="hidden" name="create_new_slider" value="1" />
@@ -197,50 +273,33 @@ if ($_POST['reorder_posts_slider']) {
     </form>
     </div>
 <?php }?> 
+
 </div>
 
-<div style="margin:10px auto;clear:left;">
-                        <a href="http://slidervilla.com/" title="Premium WordPress Slider Plugins" target="_blank"><img src="<?php echo smooth_slider_plugin_url('images/slidervilla-728.jpg');?>" alt="Premium WordPress Slider Plugins" /></a>
-</div>
 
-<div id="poststuff" class="metabox-holder has-right-sidebar"> 
-		<div id="side-info-column" class="inner-sidebar" style="float:left;"> 
-			<div class="postbox"> 
-			  <h3 class="hndle"><span><?php _e('About this Plugin:','smooth-slider'); ?></span></h3> 
-			  <div class="inside">
+<div id="poststuff" class="metabox-holder has-right-sidebar" style="float:left;width:25%;max-width:300px;margin-top:20px;"> 
+		
+		<div class="postbox"> 
+		<h3 class="hndle"><span><?php _e('About this Plugin:','smooth-slider'); ?></span></h3> 
+		<div class="inside">
                 <ul>
                 <li><a href="http://slidervilla.com/smooth-slider" title="<?php _e('Smooth Slider Homepage','smooth-slider'); ?>" ><?php _e('Plugin Homepage','smooth-slider'); ?></a></li>
-                <li><a href="http://clickonf5.com/" title="<?php _e('Support Forum for Smooth Slider','smooth-slider'); ?>
+                <li><a href="http://wordpress.org/support/plugin/smooth-slider" title="<?php _e('Support Forum for Smooth Slider','smooth-slider'); ?>
 " ><?php _e('Support Forum','smooth-slider'); ?></a></li>
-                <li><a href="http://keencodes.com/" title="<?php _e('Smooth Slider Author Page','smooth-slider'); ?>" ><?php _e('About the Author','smooth-slider'); ?></a></li>
-				<li><a href="http://www.clickonf5.org" title="<?php _e('Visit Internet Techies','smooth-slider'); ?>
-" ><?php _e('Plugin Parent Site','smooth-slider'); ?></a></li>
-                <li><a href="http://www.clickonf5.org/go/smooth-slider/" title="<?php _e('Donate if you liked the plugin and support in enhancing Smooth Slider and creating new plugins','smooth-slider'); ?>" ><?php _e('Donate with Paypal','smooth-slider'); ?></a></li>
+                <li><a href="http://slidervilla.com/about-us/" title="<?php _e('Smooth Slider Author Page','smooth-slider'); ?>" ><?php _e('About the Author','smooth-slider'); ?></a></li>
+		<li><a href="http://www.clickonf5.org/go/smooth-slider/" title="<?php _e('Donate if you liked the plugin and support in enhancing Smooth Slider and creating new plugins','smooth-slider'); ?>" ><?php _e('Donate with Paypal','smooth-slider'); ?></a></li>
+		<li><strong>Current Version: <?php echo SMOOTH_SLIDER_VER;?></strong></li>
                 </ul> 
-              </div> 
-			</div> 
+            	</div> 
 		</div>
-     
-        <div id="side-info-column" class="inner-sidebar" style="float:left;margin-left:1em"> 
-			<div class="postbox"> 
-			  <h3 class="hndle"><span></span><?php _e('Our Facebook Fan Page','smooth-slider'); ?></h3> 
-			  <div class="inside">
-               <iframe src="//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fslidervilla&amp;width=270&amp;height=170&amp;colorscheme=light&amp;show_faces=true&amp;border_color&amp;stream=false&amp;header=false&amp;appId=140253496056337" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:270px; height:170px;" allowTransparency="true"></iframe>
-              </div> 
-			</div> 
-		</div>
-          
-		<div id="side-info-column" style="float:left;margin-left:1em;width:325px;"> 
-		<div class="postbox"> 
-		  <h3 class="hndle"><span></span><?php _e('Recommended Themes','smooth-slider'); ?></h3> 
-		  <div class="inside">
-				 <div style="margin:10px 5px">
-					<a href="http://slidervilla.com/go/elegantthemes/" title="Recommended WordPress Themes" target="_blank"><img src="<?php echo smooth_slider_plugin_url('images/elegantthemes.gif');?>" alt="Recommended WordPress Themes" /></a>
-					<p><a href="http://slidervilla.com/go/elegantthemes/" title="Recommended WordPress Themes" target="_blank">Elegant Themes</a> are attractive, compatible, affordable, SEO optimized WordPress Themes and have best support in community.</p>
-					<p><strong>Beautiful themes, Great support!</strong></p>
-					<p><a href="http://slidervilla.com/go/elegantthemes/" title="Recommended WordPress Themes" target="_blank">For more info visit ElegantThemes</a></p>
-				 </div>
-		   </div></div></div>
+                      
+		<div class="postbox" style="margin:10px 0;"> 
+				
+     		  <div class="inside">
+				<div style="margin:10px auto;">
+							<a href="http://slidervilla.com" title="Premium WordPress Slider Plugins" target="_blank"><img src="<?php echo smooth_slider_plugin_url('images/banner-premium.png');?>" alt="Premium WordPress Slider Plugins" width="100%" /></a>
+				</div>
+				</div></div>
      
      <div style="clear:left;"></div>
  </div> <!--end of poststuff --> 

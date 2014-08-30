@@ -40,13 +40,14 @@ add_theme_support( 'post-thumbnails' );
  */
 function smooth_sslider_get_the_image( $args = array() ) {
 	global $post;
-	$post_id = $post->ID;
+	if(isset($post->ID))$post_id = $post->ID;
+	else $post_id = 0;
 	$permalink = get_permalink( $post_id );
 
 	/* Set the default arguments. */
 	$defaults = array(
 		'custom_key' => array( 'Thumbnail', 'thumbnail' ),
-		'post_id' => $post->ID,
+		'post_id' => $post_id,
 		'attachment' => true,
 		'the_post_thumbnail' => true, // WP 2.9+ image function
 		'default_size' => false, // Deprecated 0.5 in favor of $size
@@ -88,24 +89,25 @@ function smooth_sslider_get_the_image( $args = array() ) {
 			$image = smooth_sslider_image_by_custom_field( $args );
 
 		/* If no image found and $the_post_thumbnail is set to true, check for a post image (WP feature). */
-		if ( !$image && $the_post_thumbnail )
+		if ( empty($image) && $the_post_thumbnail )
 			$image = smooth_sslider_image_by_the_post_thumbnail( $args );
 
 		/* If no image found and $attachment is set to true, check for an image by attachment. */
-		if ( !$image && $attachment )
+		if ( empty($image) && $attachment )
 			$image = smooth_sslider_image_by_attachment( $args );
 
 		/* If no image found and $image_scan is set to true, scan the post for images. */
-		if ( !$image && $image_scan )
+		if ( empty($image) && $image_scan )
 			$image = smooth_sslider_image_by_scan( $args );
 
 		/* If no image found and a $default_image is set, get the default image. */
-		if ( !$image && $default_image )
+		if ( empty($image) && $default_image )
 			$image = smooth_sslider_image_by_default( $args );
 
 		/* If an image is returned, run it through the display function. */
-		if ( $image )
+		if ( isset($image) )
 			$image = smooth_sslider_display_the_image( $args, $image );
+		else $image='';
 
 	/* Allow plugins/theme to override the final output. */
 	$image = apply_filters( 'smooth_sslider_get_the_image', $image );
@@ -178,7 +180,9 @@ function smooth_sslider_image_by_the_post_thumbnail( $args = array() ) {
 	/* If no post image ID is found, return false. */
 	if ( empty( $post_thumbnail_id ) )
 		return false;
-
+	/* Added for category Slider  */
+	if( !wp_attachment_is_image($post_thumbnail_id) ) 
+		return false;
 	/* Apply filters on post_thumbnail_size because this is a default WP filter used with its image feature. */
 	$size = apply_filters( 'post_thumbnail_size', $args['size'] );
 
@@ -205,7 +209,7 @@ function smooth_sslider_image_by_attachment( $args = array() ) {
 
 	/* Get attachments for the inputted $post_id. */
 	$attachments = get_children( array( 'post_parent' => $args['post_id'], 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => 'ASC', 'orderby' => 'menu_order ID' ) );
-
+	$i = 0;
 	/* If no attachments are found, check if the post itself is an attachment and grab its image. */
 	if ( empty( $attachments ) && $args['size'] ) {
 		if ( 'attachment' == get_post_type( $args['post_id'] ) ) {
@@ -246,8 +250,9 @@ function smooth_sslider_image_by_scan( $args = array() ) {
 	preg_match_all( '|<img.*?src=[\'"](.*?)[\'"].*?>|i', get_post_field( 'post_content', $args['post_id'] ), $matches );
 
 	/* If there is a match for the image, return its URL. */
-	if ( isset( $matches ) && $matches[1][0] )
-		return array( 'url' => $matches[1][0] );
+	if ( isset( $matches ) )
+		if( isset($matches[1][0]) )
+			return array( 'url' => $matches[1][0] );
 
 	return false;
 }
@@ -283,13 +288,13 @@ function smooth_sslider_display_the_image( $args = array(), $image = false ) {
 	extract( $args );
 
 	/* If there is alt text, set it.  Otherwise, default to the post title. */
-	$image_alt = ( ( $image['alt'] ) ? $image['alt'] : apply_filters( 'the_title', get_post_field( 'post_title', $post_id ) ) );
+	$image_alt = ( isset( $image['alt'] ) ? $image['alt'] : apply_filters( 'the_title', get_post_field( 'post_title', $post_id ) ) );
 
 	/* If there is a width or height, set them as HMTL-ready attributes. */
-	$width = ( ( $width ) ? ' width="' . esc_attr( $width ) . '"' : '' );
-	$height = ( ( $height ) ? ' height="' . esc_attr( $height ) . '"' : '' );
-	$style = ( ( $style ) ?   ' '.$style   : '' );
-	$a_attr = ( ( $a_attr ) ?   ' '.$a_attr   : '' );
+	$width = ( isset( $width ) ? ' width="' . esc_attr( $width ) . '"' : '' );
+	$height = ( isset( $height ) ? ' height="' . esc_attr( $height ) . '"' : '' );
+	$style = ( isset( $style ) ?   ' '.$style   : '' );
+	$a_attr = ( isset( $a_attr ) ?   ' '.$a_attr   : '' );
 
 	/* Loop through the custom field keys and add them as classes. */
 	if ( is_array( $custom_key ) ) {
@@ -305,8 +310,10 @@ function smooth_sslider_display_the_image( $args = array(), $image = false ) {
 	$class = join( ' ', array_unique( $classes ) );
 
 	/* If there is a $post_thumbnail_id, apply the WP filters normally associated with get_the_post_thumbnail(). */
-	if ( $image['post_thumbnail_id'] )
-		do_action( 'begin_fetch_post_thumbnail_html', $post_id, $image['post_thumbnail_id'], $size );
+	if (isset ($image['post_thumbnail_id'])) {
+		if ( $image['post_thumbnail_id'] )
+			do_action( 'begin_fetch_post_thumbnail_html', $post_id, $image['post_thumbnail_id'], $size );
+	}
 
 	/* Add the image attributes to the <img /> element. */
 	$html = '<img src="' . $image['url'] . '" alt="' . esc_attr( strip_tags( $image_alt ) ) . '" class="' . esc_attr( $class ) . '"' . $width . $height . $style .' />';
@@ -321,12 +328,16 @@ function smooth_sslider_display_the_image( $args = array(), $image = false ) {
 	}
 
 	/* If there is a $post_thumbnail_id, apply the WP filters normally associated with get_the_post_thumbnail(). */
-	if ( $image['post_thumbnail_id'] )
-		do_action( 'end_fetch_post_thumbnail_html', $post_id, $image['post_thumbnail_id'], $size );
+	if (isset ($image['post_thumbnail_id'])) {
+		if ( $image['post_thumbnail_id'] )
+			do_action( 'end_fetch_post_thumbnail_html', $post_id, $image['post_thumbnail_id'], $size );
+	}
 
 	/* If there is a $post_thumbnail_id, apply the WP filters normally associated with get_the_post_thumbnail(). */
-	if ( $image['post_thumbnail_id'] )
-		$html = apply_filters( 'post_thumbnail_html', $html, $post_id, $image['post_thumbnail_id'], $size, '' );
+	if (isset ($image['post_thumbnail_id'])) {
+		if ( $image['post_thumbnail_id'] )
+			$html = apply_filters( 'post_thumbnail_html', $html, $post_id, $image['post_thumbnail_id'], $size, '' );
+	}
 
 	return $html;
 }

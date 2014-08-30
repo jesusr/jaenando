@@ -1,21 +1,21 @@
 === Smooth Slider ===
 Contributors: internet techies, slidervilla
-Tags: responsive,slideshow,featured,posts,jquery,slider,content,widget,shortcode,carousel,css,simple,thumbnail,image,post,sidebar,plugin,page,category,wpmu,site,blogs,style,home,categories,picture,flash,gallery
+Tags: slider, slideshow, wordpress slider, content slider, posts slider,image slider, responsive slideshow, image Rotator, jquery slider, Photo Slider, nivo slider, slider plugin, javascript slider, coin slider, responsive slider, featured-content-slider, Horizontal slider, carousel slider, wp slider, vertical slider, best slider plugin, content slideshow, javascript slideshow, slideshow manager, slideshow plugin, image slideshow, jquery slideshow, wordpress slideshow, vertical slides, responsive, nivoslider, flex slider, coinslider, carousel, post, posts, plugin, slider widget, widget slider, widget slideshow, widget, widgets, seo, wordpress seo, media, page, slide, slides
 Donate link: http://www.clickonf5.org/go/smooth-slider/ 
 Requires at least: 3.0
-Tested up to: 3.4.2
-Stable tag: 2.4
+Tested up to: 3.9.2
+Stable tag: 2.6.3
 License: GPLv2 or later
+
+Most Popular Responsive WordPress Slider for Featured Content, Videos and Media Images
 
 == Description ==
 
-Smooth Slider is a Wordpress Plugin for creating a dynamic slideshow/s for featured Posts, Pages, Media Images and Custom Post Types on a WordPress site. 
-
-**Find advanced WordPress Slider Plugins at [SliderVilla](http://www.slidervilla.com/)**
+In less than 50 seconds, embed a recent posts, category specific or featured posts slider using Smooth Slider. It creates a dynamic slideshow/s for featured Posts, Pages, Media Images and Custom Post Types on a WordPress site. With live preview on admin panel, one can customize the slider before implementation. At SliderVilla - <a href="http://slidervilla.com/" rel="friend" title="Best WordPress Slider Store">Best WordPress Slider Store</a> , we develop only sliders and we know the requirements very well. Smooth Slider is a basic slider WordPress plugin but is capable of adding a nice carousel in no time. With shortcode, widgets and template tag, one can embed Smooth SLider anywhere in the site. 
 
 = Features =
 
-* Supports Responsive Design
+* Responsive Design
 * Six transition effects ( Fade transition supported )
 * Custom Slider, Category Slider and Recent Posts Slider supported ( Template tags, Shortcode and Widget available )
 * Slider Preview in admin panel 
@@ -26,14 +26,41 @@ Smooth Slider is a Wordpress Plugin for creating a dynamic slideshow/s for featu
 * No Need Of Knowledge of PHP, HTML or CSS. But for those having knowledge of CSS, you can create your own stylesheet.
 * Slides can be removed from the slider in single click thru 'Sliders' admin panel
 
-[Plugin Home Page](http://slidervilla.com/smooth-slider/) | 
-[Demo](http://www.clickonf5.org/) | 
+= Premium Sliders =
+= <a href="http://slidervilla.com/sliders-list-view/" rel="friend" title="Premium WordPress Sliders">15+ Premium WordPress Sliders</a> =
+
+* Create Unlimited Settings Panels
+* Created Unlimited Custom Sliders
+* Multiple Designs to Choose From
+* Export/Import Settings
+* Lightbox Effect
+* Logo Slider with Grayscale Effect (Placid)
+* Multiple Image Size Slider
+* Google Web Fonts option on Settings Panel
+* Very Prompt Support and Lifetime Upgrades
+
+Checkout Our Premium Responsive Sliders such as,
+
+* Placid Slider - <a href="http://slidervilla.com/placid/" rel="friend" title="Best Logo and Client Brand Slider">Best Logo and Client Brand Slider</a>
+* Pointelle Slider - <a href="http://slidervilla.com/pointelle/" rel="friend" title="Best WordPress Slider Design for Homepage">Best WordPress Slider Design for Homepage</a>
+* Glam Slider - <a href="http://slidervilla.com/glam/" rel="friend" title="Full Page Slider with Partial Visible Slides">Full Page Slider with Partial Visible Slides</a>
+* Featured Slider - <a href="http://slidervilla.com/featured-slider/" rel="friend" title="Awesome WordPress Slider to Show Featured Content">Awesome WordPress Slider to Show Featured Content</a>
+* Listic Slider - <a href="http://slidervilla.com/listic/" rel="friend" title="Best List View Slider for WordPress">Best List View Slider for WordPress</a>
+* Roster Slider - <a href="http://slidervilla.com/roster/" rel="friend" title="Best Horizontal Carousal for WordPress">Best Horizontal Carousal for WordPress</a>
+* Pinwheel Slider - <a href="http://slidervilla.com/pinwheel/" rel="friend" title="Ultimate rotator with responsive design">Ultimate rotator with responsive design</a>
+* Akkord Slider - <a href="http://slidervilla.com/akkord/" rel="friend" title="Premium Accordion Slider for WordPress">Premium Accordion Slider for WordPress</a>
+* Foto Slider - <a href="http://slidervilla.com/foto-slider/" rel="friend" title="Best Gallery View Slider for WordPress">Best Gallery View Slider for WordPress</a>
+and many more
+
+<a href="http://slidervilla.com/smooth-slider/" rel="friend" >Plugin Home Page</a> | 
 [Plugin Documentation](http://guides.slidervilla.com/smooth-slider/) 
 
-**Smooth Slider is now Add-ons compatible. You can check more info on Plugin Home Page (link above)**
+**Smooth Slider is now <a href="http://slidervilla.com/add-ons/" rel="friend">Add-ons</a> compatible. **
 
 1. Taxonomy Add-on
-2. Gallery Add-on
+2. Post Attachments Add-on
+3. RSS Feed Add-on
+4. NextGEN Gallery Add-on
 
 
 == Installation ==
@@ -94,6 +121,7 @@ For more documentation go to [Smooth Slider Documentation](http://guides.sliderv
 **Find More Advanced Slider Styles at [SliderVilla](http://www.slidervilla.com/)**
 
 == Upgrade Notice ==
+If you have Smooth Slider 2.6 or plus, kindly update to 2.6.3 for proper height calcualtion for responsiveness.
 
 = Before Upgrading =
 
@@ -102,8 +130,6 @@ For more documentation go to [Smooth Slider Documentation](http://guides.sliderv
 * Recheck the Slider Title, Post Title and the Slider Content fonts on the Settings Panel.
 
 [Get older versions](http://wordpress.org/extend/plugins/smooth-slider/download/)
-
-!!IMP!! If you have highly customized Smooth Slider, Before upgrading to 2.4, save your CSS and Settings. You may lose some CSS formatting as in the new versions the slider javascript is changed and is different from previous versions.
 
 == Frequently Asked Questions ==
 
@@ -114,12 +140,72 @@ Check the other FAQs on Smooth [Slider Documetation on SliderVilla](http://guide
 
 == Screenshots ==
 
-1. Demo of Smooth Slider
-2. A brief view of Settings panel
-3. Add post/Page to Smooth slider along with other edit panel options
+1. One Demo of Smooth Slider
+2. Another demo with image in centre
+3. Basic Settings Panel
+4. Advance Setting options under Miscellaneous section
+5. Control Live Preview Panel, Get Shortcode and Template Tag
+6. Export/Import Setting Values, Get Quick Shortcode and Template Tag
+7. Image auto fetch preferences, customize image width/height and other parameters
+8. Drag and Drop reorder or added slides
 
 
 == Changelog ==
+Version 2.6.3 (08/13/2014)
+
+1. Fix: Slider was causing page to hide initially and appear on document ready. Resolved this issue. Now slider is workig perfectly for responsive heights.
+
+Version 2.6.2 (08/12/2014)
+
+1. New: RSS Feed Add-on compatibility
+2. Fix: Slider height not properly set initially for center aligned (large) images slider. Fixed the issue.
+
+Version 2.6.1 (07/30/2014)
+
+1. Fix: Smooth Slider coming before content in case of shortcode
+2. Fix: Words breaking improperly in the slider content area
+3. Fix: JS conflict with ShareThis plugin
+
+Version 2.6 (07/29/2014)
+
+1. New: Image uploader for Sliders on 'Sliders' settings panel. No need to add individual media image to Smooth slider.
+2. New: Add any shortcode like video shortcode or button shortcode to slide which will be overlayed on it.
+3. New: Rename Slider field on Smooth Slider => Sliders panel
+4. New: Smooth Slider post meta box now has two tabs named basic and advanced with respective fields for the purpose of easy understanding and saving the space.
+5. New: On settings panel of Smooth slider now it is possible to expand and collapse tabs which greatly reduces scrolling efforts.
+6. New: Preview Slider params simplified on Settings panel.
+7. New: Color picker changed from Farbtastic to "wp-color-picker".
+8. Fix: Worked on responsiveness of slider. 
+9. Fix: Settings panel cleanup and restructuring.
+10. Fix: Solved the debug errors on Sliders panel.
+
+Version 2.5.1 (06/04/2014)
+
+1. New: Removed promotional link text 'smooth slider' from the slider
+2. Fix: Edit Media page having double post meta boxes
+3. Fix: Add to Slider not working for media images
+4. Fix: CSS changes for video slides and WordPress Video Shortcode
+5. Fix: On Delete and Reinstall, options are not saved
+6. Fix: Slider appears only if "Display slider" option is checked in Post Meta box 
+
+Version 2.5 (05/30/2014)
+
+1. New: Create Multiple Sliders from Sliders Panel
+2. New: Embed videos or other items using "Embed Shortcode" new field
+3. New: Show/Hide Image Thumbnail if video inserted in slide
+4. New: Made 100% Responsive Slider with Fluid Design
+5. New: Export/Import Settings Set (useful when implementing customized Smooth SLider from dev to live site)
+6. New: Reset Setting values to Global Derfault
+7. New: Preview tab to select 'Recent Post Slider', Category Slider, Custom Slider to live preview on admin panel
+8. New: Shortcode and Template Tags to embed the preview slider are shown on settings panel sidebar
+9. New: Clean and minimal admin panel with almost no advertisement
+10. New: Easy embed shortcode pop-up on setting changes
+11. New: Change the color of "Continue Reading" text
+12. New: Added validations on setting fields
+13. Fix: Post Meta Box fields not updating
+14. Fix: Disable Suto Play was not working properly
+15. Fix: Admin Panel CSS issue
+16. Fix: Debug notifications
 
 Version 2.4 (09/10/2012)
 
