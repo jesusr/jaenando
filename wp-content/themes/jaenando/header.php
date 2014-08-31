@@ -22,7 +22,9 @@
 		<link href='http://fonts.googleapis.com/css?family=Oleo+Script:700' rel='stylesheet' type='text/css'>
 		<link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'>
 		<script type="text/javascript" src="<?php bloginfo('template_url');?>/js/css3-mediaqueries.js"></script>
+		<script type="text/javascript" src="<?php bloginfo('template_url');?>/js/bower_components/bigtext/src/bigtext.js"></script>
 		<link rel="stylesheet" type="text/css" href="<?php bloginfo('template_url');?>/css/1140.css">
+		<link rel="stylesheet" type="text/css" href="<?php bloginfo('template_url');?>/css/flaticon/flaticon.css">
 		<style type="text/css">
 			@-moz-document url-prefix() {
 			    #logo{

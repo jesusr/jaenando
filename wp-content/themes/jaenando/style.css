@@ -445,3 +445,19 @@ footer{
         .cf:before,
         .cf:after { content: ""; display: table; }
         .cf:after { clear: both; }
+#comarca{}
+#comarca h1{font-size: 1.5em;border: none}
+#comarca article{border-radius:5%;box-shadow:0 0 10px #999;padding: 1em;background-color: #fff}
+#comarca article header.entry-header{}
+#comarca article header h2{font-family: 'Oleo Script', cursive;}
+#comarca article header img{box-shadow:0 0 5px #999;}
+#comarca article header .entry-meta{}
+#comarca article .text-completo p{}
+.tooltip:before{
+	position: absolute;
+	width:80px;
+	height: 1em;
+	content: attr(data-name);
+}
+.btns{margin-top:.8em;}
+.btns a i{font-size: 35px;}
