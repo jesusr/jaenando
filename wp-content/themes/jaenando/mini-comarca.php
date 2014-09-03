@@ -21,6 +21,7 @@ $comarcas=array("sierrasur" => "Sierra Sur","condado"=>"El Condado","sierramoren
 								<div class="entry-meta">
  									<?php echo get_the_post_thumbnail( $post_id, 'medium', $attr ); ?>
 								</div><!-- .entry-meta -->
+								<p class="entry-excerpt"><?php get_the_excerpt();?></p>
 								<p class="btns"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'toolbox' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><i class="flaticon-page35"></i></a>
 								<a href="" id="player_call"><i class="flaticon-play11"></i></a></p>
 							</header><!-- .entry-header -->
