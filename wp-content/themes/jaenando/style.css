@@ -458,6 +458,9 @@ footer{
 	width:80px;
 	height: 1em;
 	content: attr(data-name);
+	z-index: 99;
+	right: 0;
+	left: 0;
 }
 .btns{margin-top:.8em;}
 .btns a i{font-size: 35px;}
