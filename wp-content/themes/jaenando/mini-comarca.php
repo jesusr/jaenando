@@ -9,7 +9,7 @@ $comarcas=array("sierrasur" => "Sierra Sur","condado"=>"El Condado","sierramoren
 ?>
 			<div id="comarca">
 				<div id="" class="detalle-<?php echo $_GET["cname"];?>">
-					<?php echo '<h1>Comarca de '.$comarcas[$_GET["cname"]].'</h1>';?>
+					<?php // echo '<h1>Comarca de '.$comarcas[$_GET["cname"]].'</h1>';?>
 			 		<?php 
 			 			$aux = $_GET["cname"];
 						query_posts(array('post_type' => 'podcast','category_name'=>$aux)); 
