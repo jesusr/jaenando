@@ -22,9 +22,12 @@
 		<link href='http://fonts.googleapis.com/css?family=Oleo+Script:700' rel='stylesheet' type='text/css'>
 		<link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'>
 		<script type="text/javascript" src="<?php bloginfo('template_url');?>/js/css3-mediaqueries.js"></script>
+    	<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
 		<script type="text/javascript" src="<?php bloginfo('template_url');?>/js/bower_components/bigtext/src/bigtext.js"></script>
+		<script type="text/javascript" src="<?php bloginfo('template_url');?>/js/tooltipster/js/jquery.tooltipster.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="<?php bloginfo('template_url');?>/css/1140.css">
 		<link rel="stylesheet" type="text/css" href="<?php bloginfo('template_url');?>/css/flaticon/flaticon.css">
+		<link rel="stylesheet" type="text/css" href="<?php bloginfo('template_url');?>/js/tooltipster/css/tooltipster.css">
 		<style type="text/css">
 			@-moz-document url-prefix() {
 			    #logo{

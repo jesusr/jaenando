@@ -464,3 +464,4 @@ footer{
 }
 .btns{margin-top:.8em;}
 .btns a i{font-size: 35px;}
+.ui-tooltip{width: auto;font-size:1.3em ;font-family: 'Maven Pro', sans-serif;border-radius:5%;padding:1px;display: inline-block;position: relative;margin: 0 auto; left: 40% !important;background-color: #777}
