@@ -1,4 +1,4 @@
-<aside class="podcast-aside fourcol last">
+<aside class="podcast-aside">
 	<div class="podcast-meta">
 		<p class="comarca-info-line">
 			<span class="comarca">

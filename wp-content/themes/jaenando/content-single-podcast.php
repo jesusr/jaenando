@@ -9,7 +9,7 @@
 			<?php the_post_thumbnail( 'post-thumbnail', array( title => '' ) ); ?>
 		<?php endif; ?>
 		<?= get_field( 'songcloud' ) ?>
-		<div class="texto-completo eightcol">
+		<div class="texto-completo">
 			<?= get_field( 'texto_completo' );?>
 		</div>
 		<?php get_template_part( 'content', 'aside' ); ?>
